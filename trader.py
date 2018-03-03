@@ -223,7 +223,6 @@ class Trader:
 if __name__ == '__main__':
     # You should not modify this part.
     import argparse
-    import sys; sys.argv=['']; del sys
 
     parser = argparse.ArgumentParser()
 
@@ -236,6 +235,9 @@ if __name__ == '__main__':
     parser.add_argument('--output',
                         default='output.csv',
                         help='output file name')
+    parser.add_argument('-f',
+                        default='',
+                        help='ipython')
     args = parser.parse_args()
     
     # The following part is an example.
