@@ -1,8 +1,7 @@
-<<<<<<< HEAD
-# DSAI HW1-AutoTrading
-- nbviewer url:
- - https://nbviewer.jupyter.org/github/yutongshen/DSAI-HW1-AutoTrading/blob/master/trader.ipynb
+# Data Science and Artificial Intelligence Practice Homework
 =======
-# DSAI
-Data Science and Artificial Intelligence Practice
->>>>>>> 9a6151d4ca1a9f518d5673126865c3b77b8bc1a0
+## DSAI HW1-AutoTrading
+- nbviewer url: https://nbviewer.jupyter.org/github/yutongshen/DSAI-HW1-AutoTrading/blob/master/trader.ipynb
+=======
+## AUTHORS
+[Yu-Tong Shen](https://github.com/yutongshen/)
