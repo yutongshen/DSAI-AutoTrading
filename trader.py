@@ -2,7 +2,8 @@
 # coding: utf-8
 
 # # HW1-AutoTrading
-# ## import package
+
+# ## Import package
 
 # In[1]:
 
@@ -13,7 +14,8 @@ from sklearn.neighbors import KNeighborsRegressor
 from sklearn.cross_validation import train_test_split
 
 
-# ## functions
+# ## Functions implement
+# - Load .csv files by pandas
 
 # In[2]:
 
@@ -26,6 +28,7 @@ def load_data(path):
 
 
 # ## Dataset Building
+# - Store training data and history data
 
 # In[3]:
 
@@ -104,6 +107,20 @@ class Datasets:
 
 
 # ## Module Building
+# - Using sklearn.KNeighborsRegressor module
+# 
+# - Training Datas are newest 800 vectors
+#  - $TrainingData = [v_{n-799}, v_{n-798}, ..., v_{n}]$
+#  - where $v_i$ is the vector of the $i$-th day
+# 
+# - A vector contain prices of open-high-low-close in past 60 days
+#  - $v_{n} = [o_{n-59}, h_{n-59}, l_{n-59}, c_{n-59}, o_{n-58}, h_{n-58}, l_{n-58}, c_{n-58}, ..., o_{n}, h_{n}, l_{n}, c_{n}]$
+#  - where $o_i - h_i - l_i - c_i$ are open-high-low-close prices of the $i$-th day
+# 
+# - Target of training will predict an average of open prices in future 10 days
+#  - $t_{n} = \frac{1}{10}\sum_{i=n+1}^{n+11} o_i$
+#  
+# - We'll be re-training when each testing data is inputted
 
 # In[4]:
 
@@ -128,8 +145,7 @@ class Scikit_KNeighborsRegressor:
             for i in range(self.dataset.data.shape[0] - self.length, self.dataset.data.shape[0]):
                 self.test_data[0] = np.hstack((self.dataset.data[i], self.test_data[0, :(self.length - 1) * 4]))
             self.test_data[0] = np.hstack((row, self.test_data[0, :(self.length - 1) * 4]))
-            # for i in range(self.length):
-            #     self.test_data[0, i * 4:i * 4 + 4] = row
+
             for i in range(self.length + self.interval):
                 self.store_data[0, i * 4:i * 4 + 4] = row
             self.first = False
@@ -143,8 +159,6 @@ class Scikit_KNeighborsRegressor:
         self.retrain_target = [np.mean(self.store_data[0, ::4][:self.interval])]
         
     def train(self):
-        #self.dataset = dataset
-        #data_x = self.get_data(dataset.data)
         data_x = self.dataset.get_last_batch(5 * self.length, self.length)
         data_t = self.dataset.target_regression[self.dataset.target_regression.shape[0] - 5 * self.length:]
 
@@ -213,9 +227,9 @@ class Trader:
         
 
 
-# ## main module
+# ## Main module
 
-# In[6]:
+# In[8]:
 
 
 # You can write code above the if-main block.
@@ -223,7 +237,7 @@ class Trader:
 if __name__ == '__main__':
     # You should not modify this part.
     import argparse
-
+    
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--training',
@@ -255,7 +269,7 @@ if __name__ == '__main__':
     stock = 0
     action = 0
     money = 0
-    print('i', 'action', 'stock', 'money')
+    # print('i', 'action', 'stock', 'money')
     
     with open(args.output, 'w') as output_file:
         for row in testing_data:
@@ -264,11 +278,12 @@ if __name__ == '__main__':
             action = trader.predict_action(row)
 
             # Show result
-            print(i, int(action), stock, round(money, 4))
+            # print(i, int(action), stock, round(money, 4))
             stock += int(action)
             i += 1
 
-            output_file.write(action)
+            if i <= testing_data.shape[0]:
+                output_file.write(action)
 
             # this is your option, you can leave it empty.
             trader.re_training()
@@ -280,3 +295,8 @@ if __name__ == '__main__':
     print('batter', round((money - buy_and_hold_strategy) * 100 / buy_and_hold_strategy, 4), '%')
         
 
+
+# ## Conclusion
+# - We use the newest 800 datas for training because maybe the overly older data will make misunderstand
+# - The open price is unsettled in short time, so predict the open price in next day will be difficult and inaccurate
+# 
