@@ -5,7 +5,7 @@
 
 # ## Import package
 
-# In[1]:
+# In[ ]:
 
 
 import pandas as pd
@@ -17,20 +17,20 @@ from sklearn.cross_validation import train_test_split
 # ## Functions implement
 # - Load .csv files by pandas
 
-# In[2]:
+# In[ ]:
 
 
 def load_data(path):
     df = pd.read_csv(path, names=['open', 'high', 'low', 'close'])
     data = df.values
-    data[:, 1:] -= data[:, 0:1]
+    data[:, 1:] -= data[:, :1]
     return data
 
 
 # ## Dataset Building
 # - Store training data and history data
 
-# In[3]:
+# In[ ]:
 
 
 class Datasets:
@@ -109,8 +109,8 @@ class Datasets:
 # ## Module Building
 # - Using sklearn.KNeighborsRegressor module
 # 
-# - Training Datas are newest 800 vectors
-#  - $TrainingData = [v_{n-799}, v_{n-798}, ..., v_{n}]$
+# - Training Datas are newest 500 vectors
+#  - $TrainingData = [v_{n-499}, v_{n-498}, ..., v_{n}]$
 #  - where $v_i$ is the vector of the $i$-th day
 # 
 # - A vector contain prices of open-high-low-close in past 60 days
@@ -122,11 +122,11 @@ class Datasets:
 #  
 # - We'll be re-training when each testing data is inputted
 
-# In[4]:
+# In[ ]:
 
 
 class Scikit_KNeighborsRegressor:
-    def __init__(self, data, length=60, interval=10, batch=800):
+    def __init__(self, data, length=60, interval=10, batch=500):
         self.module = None
         self.length = length
         self.first = True
@@ -205,7 +205,7 @@ class Scikit_KNeighborsRegressor:
 
 # ## AutoTrader implement
 
-# In[5]:
+# In[ ]:
 
 
 class Trader:
@@ -229,7 +229,7 @@ class Trader:
 
 # ## Main module
 
-# In[8]:
+# In[ ]:
 
 
 # You can write code above the if-main block.
