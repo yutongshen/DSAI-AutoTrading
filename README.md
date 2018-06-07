@@ -1,6 +1,6 @@
-# Data Science and Artificial Intelligence Practice Homework
+# Data Science and Artificial Intelligence Practice
 
-## DSAI HW1-AutoTrading
+## DSAI-AutoTrading
 - nbviewer url: https://nbviewer.jupyter.org/github/yutongshen/DSAI-HW1-AutoTrading/blob/master/trader.ipynb
 
 ## AUTHORS
